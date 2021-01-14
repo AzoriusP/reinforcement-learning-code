@@ -62,7 +62,7 @@ class GridEnv(gym.Env):
     def setAction(self,s):
         self.state=s
 
-    def _step(self, action):
+    def step(self, action):
         #系统当前状态
         state = self.state
         if state in self.terminate_states:
@@ -88,15 +88,10 @@ class GridEnv(gym.Env):
 
 
         return next_state, r,is_terminal,{}
-    def _reset(self):
+    def reset(self):
         self.state = self.states[int(random.random() * len(self.states))]
         return self.state
-    def render(self, mode='human', close=False):
-        if close:
-            if self.viewer is not None:
-                self.viewer.close()
-                self.viewer = None
-            return
+    def render(self, mode='human'):
         screen_width = 600
         screen_height = 400
 
@@ -174,6 +169,14 @@ class GridEnv(gym.Env):
 
 
 
+    def close(self):
+        if self.viewer:
+            self.viewer.close()
+            self.viewer = None     
+    #一个空的seed函数
+    def seed(self,seed_num=0):
+        pass
+        return
 
 
 
